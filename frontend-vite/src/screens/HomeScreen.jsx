@@ -1,20 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import Product from "../components/Product";
-import products from "../products";
+import { listProducts } from "../slices/productSlice";
+
+let isInitial = true;
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+  const productList = useSelector((state) => state.productList);
+  const { products, loading, error } = productList;
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+
+    dispatch(listProducts());
+  }, [dispatch]);
+
   return (
     <>
       <h1>Latest Products</h1>
-      <Row>
-        {products.map((product) => (
-          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : error ? (
+        <h1>{error}</h1>
+      ) : (
+        <Row>
+          {products.map((product) => (
+            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </>
   );
 };

@@ -1,0 +1,29 @@
+{
+  "name": "candylove",
+  "version": "1.0.0",
+  "description": "Candylove website",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon backend/server",
+    "start": "node backend/server",
+    "client": "npm run dev --prefix frontend-vite",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destroy": "node backend/seeder -d"
+  },
+  "keywords": [],
+  "author": "Renato Freire Fabricio",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.8.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
