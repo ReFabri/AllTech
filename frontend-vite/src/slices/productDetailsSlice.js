@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  product: [{ reviews: [] }],
+  product: {
+    rating: 0,
+    reviews: [],
+  },
 };
 
 export const productDetailsSlice = createSlice({

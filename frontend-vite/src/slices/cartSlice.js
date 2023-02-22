@@ -5,8 +5,13 @@ const cartItemsFromStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
+const shippingAddressFromStorage = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress"))
+  : { address: "", city: "", postalCode: "", country: "" };
+
 const initialState = {
   cartItems: cartItemsFromStorage,
+  shippingAddress: shippingAddressFromStorage,
 };
 
 const cartSlice = createSlice({
@@ -30,6 +35,12 @@ const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload
       );
+    },
+    cartSaveShippingAddress: (state, action) => {
+      return { ...state, shippingAddress: action.payload };
+    },
+    cartSavePaymentMethod: (state, action) => {
+      return { ...state, paymentMethod: action.payload };
     },
   },
 });
@@ -60,6 +71,20 @@ export const removeFromCart = (id) => {
       "cartItems",
       JSON.stringify(getState().cart.cartItems)
     );
+  };
+};
+
+export const saveShippingAddress = (data) => {
+  return async (dispatch) => {
+    dispatch(cartActions.cartSaveShippingAddress(data));
+    localStorage.setItem("shippingAddress", JSON.stringify(data));
+  };
+};
+
+export const savePaymentMethod = (data) => {
+  return async (dispatch) => {
+    dispatch(cartActions.cartSavePaymentMethod(data));
+    localStorage.setItem("paymentMethod", JSON.stringify(data));
   };
 };
 

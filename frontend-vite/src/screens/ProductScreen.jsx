@@ -19,9 +19,9 @@ const ProductScreen = () => {
   const [qty, setQty] = useState(1);
   const id = useParams().id;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const productDetails = useSelector((state) => state.productDetails);
   const { product, loading, error } = productDetails;
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isInitial) {
