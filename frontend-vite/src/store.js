@@ -6,6 +6,7 @@ import userLoginReducer from "./slices/userLoginSlice";
 import userRegisterReducer from "./slices/userRegisterSlice";
 import userDetailsReducer from "./slices/userDetailsSlice";
 import userUpdateReducer from "./slices/userUpdateSlice";
+import orderReducer from "./slices/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
+    order: orderReducer,
   },
 });
