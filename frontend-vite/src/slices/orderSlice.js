@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   loading: true,
   success: false,
+  orders: [],
 };
 
 const orderSlice = createSlice({
@@ -27,6 +28,30 @@ const orderSlice = createSlice({
     },
     orderDetailsFail: (state, action) => {
       return { ...state, loading: false, error: action.payload };
+    },
+    orderPayRequest: (state) => {
+      return { ...state, paymentLoading: true };
+    },
+    orderPaySuccess: (state) => {
+      return { ...state, paymentLoading: false, paymentSuccess: true };
+    },
+    orderPayFail: (state, action) => {
+      return { ...state, paymentLoading: false, error: action.payload };
+    },
+    orderPayReset: (state) => {
+      return { ...state, paymentLoading: false, paymentSuccess: false };
+    },
+    orderUserListRequest: (state) => {
+      return { ...state, loadingOrders: true };
+    },
+    orderUserListSuccess: (state, action) => {
+      return { ...state, loadingOrders: false, orders: action.payload };
+    },
+    orderUserListFail: (state, action) => {
+      return { ...state, loadingOrders: false, errorOrders: action.payload };
+    },
+    orderUserListReset: (state) => {
+      return { ...state, loadingOrders: false, orders: [] };
     },
   },
 });
@@ -79,6 +104,69 @@ export const getOrderDetails = (id) => {
     } catch (error) {
       dispatch(
         orderActions.orderDetailsFail(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const payOrder = (orderId, paymentResult) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderActions.orderPayRequest());
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/pay`,
+        paymentResult,
+        config
+      );
+
+      dispatch(orderActions.orderPaySuccess(data));
+    } catch (error) {
+      dispatch(
+        orderActions.orderPayFail(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const listUserOrders = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderActions.orderUserListRequest());
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/orders/myorders`, config);
+
+      dispatch(orderActions.orderUserListSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderActions.orderPayFail(
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message

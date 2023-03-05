@@ -1,24 +1,45 @@
 import React, { useEffect } from "react";
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrderDetails } from "../slices/orderSlice";
+import { orderActions } from "../slices/orderSlice";
+import { getOrderDetails, payOrder } from "../slices/orderSlice";
 
 const OrderScreen = () => {
+  const [{ isPending, isResolved, isRejected }] = usePayPalScriptReducer();
   const dispatch = useDispatch();
   const orderId = useParams().id;
 
   const orderDetails = useSelector((state) => state.order);
-  const { order, loading, error } = orderDetails;
+  const { order, loading, error, paymentLoading, paymentSuccess } =
+    orderDetails;
 
   useEffect(() => {
-    if (!order || order._id !== orderId) {
+    if (!order || order._id !== orderId || paymentSuccess) {
+      dispatch(orderActions.orderPayReset());
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId]);
+  }, [dispatch, order, orderId, paymentSuccess]);
+
+  const createOrder = (data, actions) => {
+    return actions.order.create({
+      purchase_units: [
+        {
+          amount: { value: order.totalPrice },
+        },
+      ],
+    });
+  };
+
+  const successPaymentHandler = (data, actions) => {
+    return actions.order.capture().then((details) => {
+      dispatch(payOrder(orderId, details));
+    });
+  };
 
   return loading ? (
     <Loader />
@@ -134,6 +155,21 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {paymentLoading && <Loader />}
+                  {isPending && <Loader />}
+                  {isRejected && (
+                    <Message variant="danger">SDK load error</Message>
+                  )}
+                  {isResolved && (
+                    <PayPalButtons
+                      createOrder={createOrder}
+                      onApprove={successPaymentHandler}
+                    />
+                  )}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>

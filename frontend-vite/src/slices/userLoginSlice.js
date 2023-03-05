@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { userDetailsActions } from "./userDetailsSlice";
+import { orderActions } from "./orderSlice";
 import axios from "axios";
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
@@ -65,6 +67,8 @@ export const logout = () => {
   return (dispatch) => {
     localStorage.removeItem("userInfo");
     dispatch(userLoginActions.userLogout());
+    dispatch(userDetailsActions.userDetailsReset());
+    dispatch(orderActions.orderUserListReset());
   };
 };
 
