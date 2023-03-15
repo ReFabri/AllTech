@@ -6,17 +6,29 @@ import userLoginReducer from "./slices/userLoginSlice";
 import userRegisterReducer from "./slices/userRegisterSlice";
 import userDetailsReducer from "./slices/userDetailsSlice";
 import userUpdateReducer from "./slices/userUpdateSlice";
+import userUpdateProfileReducer from "./slices/userUpdateProfileSlice";
+import userListReducer from "./slices/userListSlice";
+import userDeleteReducer from "./slices/userDeleteSlice";
 import orderReducer from "./slices/orderSlice";
+import productDeleteReducer from "./slices/productDeleteSlice";
+import productCreateReducer from "./slices/productCreateSlice";
+import productUpdateReducer from "./slices/productUpdateSlice";
 
 export const store = configureStore({
   reducer: {
+    cart: cartReducer,
+    order: orderReducer,
     productList: productListReducer,
     productDetails: productDetailsReducer,
-    cart: cartReducer,
+    productDelete: productDeleteReducer,
+    productCreate: productCreateReducer,
+    productUpdate: productUpdateReducer,
     userLogin: userLoginReducer,
-    userRegister: userRegisterReducer,
-    userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
-    order: orderReducer,
+    userList: userListReducer,
+    userDetails: userDetailsReducer,
+    userRegister: userRegisterReducer,
+    userUpdateProfile: userUpdateProfileReducer,
+    userDelete: userDeleteReducer,
   },
 });

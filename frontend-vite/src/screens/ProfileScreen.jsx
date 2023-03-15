@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { getUserDetails } from "../slices/userDetailsSlice";
-import { userUpdateActions } from "../slices/userUpdateSlice";
-import { updateUser } from "../slices/userUpdateSlice";
+import { userUpdateProfileActions } from "../slices/userUpdateProfileSlice";
+import { updateUserProfile } from "../slices/userUpdateProfileSlice";
 import { listUserOrders } from "../slices/orderSlice";
 import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
 
@@ -27,8 +27,8 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userUpdate = useSelector((state) => state.userUpdate);
-  const { success } = userUpdate;
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   const ordersUser = useSelector((state) => state.order);
   const { orders, loadingOrders, errorOrders } = ordersUser;
@@ -38,7 +38,7 @@ const ProfileScreen = () => {
       navigate("/login");
     } else {
       if (!user || !user.name || success) {
-        dispatch(userUpdateActions.userUpdateReset());
+        dispatch(userUpdateProfileActions.userUpdateProfileReset());
         dispatch(getUserDetails("profile"));
         dispatch(listUserOrders());
       } else {
@@ -53,7 +53,7 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       setMessage("Passwords do not match");
     } else {
-      dispatch(updateUser({ id: user._id, name, email, password }));
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     }
   };
 

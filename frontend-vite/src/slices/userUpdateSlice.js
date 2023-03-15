@@ -1,24 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { userLoginActions } from "./userLoginSlice";
+import { userDetailsActions } from "./userDetailsSlice";
 
-const initialState = {};
+const initialState = {
+  user: {},
+};
 
 const userUpdateSlice = createSlice({
-  name: "update",
+  name: "userUpdate",
   initialState,
   reducers: {
     userUpdateRequest: (state) => {
       return { loading: true };
     },
     userUpdateSuccess: (state, action) => {
-      return { loading: false, success: true, userInfo: action.payload };
+      return { loading: false, success: true };
     },
     userUpdateFail: (state, action) => {
       return { loading: false, error: action.payload };
     },
     userUpdateReset: (state) => {
-      return {};
+      return { user: {} };
     },
   },
 });
@@ -39,10 +41,10 @@ export const updateUser = (user) => {
         },
       };
 
-      const { data } = await axios.put(`/api/users/profile`, user, config);
+      const { data } = await axios.put(`/api/users/${user._id}`, user, config);
 
-      dispatch(userUpdateActions.userUpdateSuccess(data));
-      dispatch(userLoginActions.userLoginSuccess(data));
+      dispatch(userUpdateActions.userUpdateSuccess());
+      dispatch(userDetailsActions.userDetailsSuccess(data));
 
       localStorage.setItem("userInfo", JSON.stringify(data));
     } catch (error) {
