@@ -13,6 +13,8 @@ import orderReducer from "./slices/orderSlice";
 import productDeleteReducer from "./slices/productDeleteSlice";
 import productCreateReducer from "./slices/productCreateSlice";
 import productUpdateReducer from "./slices/productUpdateSlice";
+import productCreateReviewReducer from "./slices/productCreateReviewSlice";
+import productTopReducer from "./slices/productTopSlice";
 
 export const store = configureStore({
   reducer: {
@@ -30,5 +32,7 @@ export const store = configureStore({
     userRegister: userRegisterReducer,
     userUpdateProfile: userUpdateProfileReducer,
     userDelete: userDeleteReducer,
+    productReview: productCreateReviewReducer,
+    productTop: productTopReducer,
   },
 });

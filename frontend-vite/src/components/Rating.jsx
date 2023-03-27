@@ -4,7 +4,7 @@ import { FaStarHalfAlt } from "@react-icons/all-files/fa/FaStarHalfAlt";
 import { FaStar } from "@react-icons/all-files/fa/FaStar";
 import PropTypes from "prop-types";
 
-const Rating = ({ value, text, color }) => {
+const Rating = ({ value, text = "", color }) => {
   return (
     <div className="rating">
       <span style={{ color }}>

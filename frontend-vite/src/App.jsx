@@ -16,6 +16,7 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import UserListScreen from "./screens/UserListScreen";
+import OrderListScreen from "./screens/OrderListScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import ProductEditScreen from "./screens/ProductEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
@@ -45,6 +46,10 @@ const App = () => {
             <main className="py-3">
               <Container>
                 <Routes>
+                  <Route
+                    path="/admin/orderList"
+                    element={<OrderListScreen />}
+                  />
                   <Route path="/order/:id" element={<OrderScreen />} />
                   <Route path="/shipping" element={<ShippingScreen />} />
                   <Route path="/payment" element={<PaymentScreen />} />
@@ -64,8 +69,18 @@ const App = () => {
                     element={<ProductListScreen />}
                   />
                   <Route
+                    path="/admin/productlist/:pageNumber"
+                    element={<ProductListScreen />}
+                  />
+                  <Route
                     path="/admin/product/:id/edit"
                     element={<ProductEditScreen />}
+                  />
+                  <Route path="/search/:keyword" element={<HomeScreen />} />
+                  <Route path="/page/:pageNumber" element={<HomeScreen />} />
+                  <Route
+                    path="/search/:keyword/page/:pageNumber"
+                    element={<HomeScreen />}
                   />
                   <Route path="/" element={<HomeScreen />} />
                 </Routes>

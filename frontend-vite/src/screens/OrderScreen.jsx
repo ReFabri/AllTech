@@ -1,29 +1,45 @@
 import React, { useEffect } from "react";
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { orderActions } from "../slices/orderSlice";
-import { getOrderDetails, payOrder } from "../slices/orderSlice";
+import { getOrderDetails, payOrder, deliverOrder } from "../slices/orderSlice";
 
 const OrderScreen = () => {
   const [{ isPending, isResolved, isRejected }] = usePayPalScriptReducer();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const orderId = useParams().id;
 
   const orderDetails = useSelector((state) => state.order);
-  const { order, loading, error, paymentLoading, paymentSuccess } =
-    orderDetails;
+  const {
+    order,
+    loading,
+    error,
+    paymentLoading,
+    paymentSuccess,
+    loadingDeliver,
+    successDeliver,
+  } = orderDetails;
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (!order || order._id !== orderId || paymentSuccess) {
+    if (!userInfo) {
+      navigate("/login");
+    }
+
+    if (!order || order._id !== orderId || paymentSuccess || successDeliver) {
       dispatch(orderActions.orderPayReset());
+      dispatch(orderActions.orderDeliverReset());
       dispatch(getOrderDetails(orderId));
     }
-  }, [dispatch, order, orderId, paymentSuccess]);
+  }, [dispatch, order, orderId, paymentSuccess, successDeliver]);
 
   const createOrder = (data, actions) => {
     return actions.order.create({
@@ -39,6 +55,10 @@ const OrderScreen = () => {
     return actions.order.capture().then((details) => {
       dispatch(payOrder(orderId, details));
     });
+  };
+
+  const successDeliverHandler = () => {
+    dispatch(deliverOrder(order._id));
   };
 
   return loading ? (
@@ -170,6 +190,21 @@ const OrderScreen = () => {
                   )}
                 </ListGroup.Item>
               )}
+              {loadingDeliver && <Loader />}
+              {userInfo &&
+                userInfo.isAdmin &&
+                order.isPaid &&
+                !order.isDelivered && (
+                  <ListGroup.Item className="d-grid">
+                    <Button
+                      type="button"
+                      size="lg"
+                      onClick={successDeliverHandler}
+                    >
+                      Mark as Delivered
+                    </Button>
+                  </ListGroup.Item>
+                )}
             </ListGroup>
           </Card>
         </Col>

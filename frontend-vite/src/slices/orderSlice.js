@@ -5,6 +5,7 @@ const initialState = {
   loading: true,
   success: false,
   orders: [],
+  loadingGetOrders: false,
 };
 
 const orderSlice = createSlice({
@@ -52,6 +53,31 @@ const orderSlice = createSlice({
     },
     orderUserListReset: (state) => {
       return { ...state, loadingOrders: false, orders: [] };
+    },
+    orderListRequest: (state) => {
+      return { ...state, loadingGetOrders: true, orders: [] };
+    },
+    orderListSuccess: (state, action) => {
+      return { ...state, loadingGetOrders: false, orders: action.payload };
+    },
+    orderListFail: (state, action) => {
+      return {
+        ...state,
+        loadingGetOrders: false,
+        errorGetOrders: action.payload,
+      };
+    },
+    orderDeliverRequest: (state) => {
+      return { ...state, loadingDeliver: true };
+    },
+    orderDeliverSuccess: (state) => {
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    },
+    orderDeliverFail: (state, action) => {
+      return { ...state, loadingDeliver: false, error: action.payload };
+    },
+    orderDeliverReset: (state) => {
+      return { ...state, loadingDeliver: false, successDeliver: false };
     },
   },
 });
@@ -104,6 +130,34 @@ export const getOrderDetails = (id) => {
     } catch (error) {
       dispatch(
         orderActions.orderDetailsFail(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const listOrders = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderActions.orderListRequest());
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+      const { data } = await axios.get(`/api/orders`, config);
+
+      dispatch(orderActions.orderListSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderActions.orderListFail(
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message
@@ -167,6 +221,39 @@ export const listUserOrders = () => {
     } catch (error) {
       dispatch(
         orderActions.orderPayFail(
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message
+        )
+      );
+    }
+  };
+};
+
+export const deliverOrder = (orderId) => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(orderActions.orderDeliverRequest());
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/deliver`,
+        {},
+        config
+      );
+
+      dispatch(orderActions.orderDeliverSuccess(data));
+    } catch (error) {
+      dispatch(
+        orderActions.orderDeliverFail(
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message
