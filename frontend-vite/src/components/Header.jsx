@@ -7,6 +7,7 @@ import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { FaShoppingCart } from "@react-icons/all-files/fa/FaShoppingCart";
+import { BiMobileVibration } from "@react-icons/all-files/bi/BiMobileVibration";
 import { FaUser } from "@react-icons/all-files/fa/FaUser";
 import { logout } from "../slices/userLoginSlice";
 
@@ -20,19 +21,22 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="primary" expand="lg" variant="dark">
+      <Navbar bg="dark" expand="lg" variant="dark">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Candylove</Navbar.Brand>
+            <Navbar.Brand>
+              All
+              <BiMobileVibration size="1.5em" />
+              tech
+            </Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="my-2" />
           <Navbar.Collapse id="basic-navbar-nav">
             <SearchBox />
             <Nav className="ms-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
-                  <FaShoppingCart />
-                  Cart
+                  <FaShoppingCart /> Cart
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (

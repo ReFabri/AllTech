@@ -12,9 +12,9 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: "Welcome to Candylove",
-  description: "For all your sweet needs",
-  keywords: "candy, sugar, sweet, chocolate",
+  title: "Welcome to Alltech",
+  description: "For all your tech needs",
+  keywords: "mobile, phone, smartphone, tech, technology",
 };
 
 export default Meta;

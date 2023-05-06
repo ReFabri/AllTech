@@ -22,7 +22,7 @@ import ProductEditScreen from "./screens/ProductEditScreen";
 import ProductListScreen from "./screens/ProductListScreen";
 
 // The react-bootstrap style was made with BootSwatch
-// using the United theme via the bootstrap.min.css
+// using the Lux theme via the bootstrap.min.css
 
 const App = () => {
   const [clientID, setClientID] = useState("");

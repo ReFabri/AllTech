@@ -3,11 +3,7 @@ import mongoose from "mongoose";
 import colors from "colors";
 import products from "./data/phonesData.js";
 import Product from "./models/productModel.js";
-import users from "./data/users.js";
-import User from "./models/userModel.js";
-import Order from "./models/orderModel.js";
 import connectDB from "./config/db.js";
-dotenv.config();
 
 import cloudinaryModule from "cloudinary";
 const cloudinary = cloudinaryModule.v2;
@@ -18,18 +14,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
+dotenv.config();
+
 mongoose.set("strictQuery", false);
 connectDB();
-
-console.log(
-  `To destroy all DB data call this script with the "-d" argument`.yellow
-);
-console.log(
-  `or use `.yellow,
-  `"npm run data:import"`.green,
-  `or`.yellow,
-  `"npm run data:destroy"`.red
-);
 
 async function uploadImageToCloudinary(imageUrl) {
   try {
@@ -43,16 +31,8 @@ async function uploadImageToCloudinary(imageUrl) {
   }
 }
 
-const importData = async () => {
+const importProducts = async () => {
   try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
-
-    const createdUsers = await User.insertMany(users);
-
-    const adminUser = createdUsers[0]._id;
-
     const sampleProducts = await Promise.all(
       products.map(async (product) => {
         const cloudinaryUrl = await uploadImageToCloudinary(product.image);
@@ -96,7 +76,7 @@ const importData = async () => {
           txt.wireless;
 
         return {
-          user: adminUser,
+          user: mongoose.Types.ObjectId("64542721ebdb653f64537f3f"),
           name: product.name,
           image: cloudinaryUrl,
           description: description.trim(),
@@ -120,22 +100,4 @@ const importData = async () => {
   }
 };
 
-const destroyData = async () => {
-  try {
-    await Order.deleteMany();
-    await Product.deleteMany();
-    await User.deleteMany();
-
-    console.log("Data REMOVED from DB.".red.inverse);
-    process.exit();
-  } catch (error) {
-    console.log(`${error}`.red.inverse);
-    process.exit(1);
-  }
-};
-
-if (process.argv[2] === "-d") {
-  destroyData();
-} else {
-  importData();
-}
+importProducts();

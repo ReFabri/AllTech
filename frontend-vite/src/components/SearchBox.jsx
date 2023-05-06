@@ -17,7 +17,7 @@ const SearchBox = () => {
 
   return (
     <Form onSubmit={submitHandler}>
-      <Stack direction="horizontal">
+      <Stack direction="horizontal" gap={3}>
         <Form.Control
           type="text"
           name="q"
@@ -25,7 +25,11 @@ const SearchBox = () => {
           placeholder="Search products..."
           className="ms-sm-5 me-sm-2"
         ></Form.Control>
-        <Button type="submit" variant="outline-success">
+        <Button
+          type="submit"
+          variant="outline-success"
+          style={{ borderRadius: "0.2rem" }}
+        >
           Search
         </Button>
       </Stack>
