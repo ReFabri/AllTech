@@ -9,7 +9,7 @@ import { getUserDetails } from "../slices/userDetailsSlice";
 import { userUpdateProfileActions } from "../slices/userUpdateProfileSlice";
 import { updateUserProfile } from "../slices/userUpdateProfileSlice";
 import { listUserOrders } from "../slices/orderSlice";
-import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
+import { FaTimes } from "react-icons/fa";
 
 const ProfileScreen = () => {
   const [name, setName] = useState("");

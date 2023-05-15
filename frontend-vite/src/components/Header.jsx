@@ -6,9 +6,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { FaShoppingCart } from "@react-icons/all-files/fa/FaShoppingCart";
-import { BiMobileVibration } from "@react-icons/all-files/bi/BiMobileVibration";
-import { FaUser } from "@react-icons/all-files/fa/FaUser";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { BiMobileVibration } from "react-icons/bi";
 import { logout } from "../slices/userLoginSlice";
 
 const Header = () => {

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
+import { FaTimes } from "react-icons/fa";
 
 const OrderListScreen = () => {
   const dispatch = useDispatch();

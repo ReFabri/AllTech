@@ -17,7 +17,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import { FaTrash } from "@react-icons/all-files/fa/FaTrash";
+import { FaTrash } from "react-icons/fa";
 
 const CartScreen = () => {
   const [searchParams] = useSearchParams();

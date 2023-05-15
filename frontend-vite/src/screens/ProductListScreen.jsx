@@ -10,9 +10,7 @@ import { listProducts } from "../slices/productListSlice";
 import { deleteProduct } from "../slices/productDeleteSlice";
 import { createProduct } from "../slices/productCreateSlice";
 import { productCreateActions } from "../slices/productCreateSlice";
-import { FaEdit } from "@react-icons/all-files/fa/FaEdit";
-import { FaTrash } from "@react-icons/all-files/fa/FaTrash";
-import { FaPlus } from "@react-icons/all-files/fa/FaPlus";
+import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 
 const ProductListScreen = () => {
   const dispatch = useDispatch();

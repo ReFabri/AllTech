@@ -1,7 +1,5 @@
 import React from "react";
-import { FaRegStar } from "@react-icons/all-files/fa/FaRegStar";
-import { FaStarHalfAlt } from "@react-icons/all-files/fa/FaStarHalfAlt";
-import { FaStar } from "@react-icons/all-files/fa/FaStar";
+import { FaRegStar, FaStarHalfAlt, FaStar } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 const Rating = ({ value, text = "", color }) => {

@@ -7,11 +7,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers } from "../slices/userListSlice";
 import { deleteUser } from "../slices/userDeleteSlice";
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck";
-import { FaTimes } from "@react-icons/all-files/fa/FaTimes";
-import { FaEdit } from "@react-icons/all-files/fa/FaEdit";
-import { FaTrash } from "@react-icons/all-files/fa/FaTrash";
-
+import { FaCheck, FaTimes, FaEdit, FaTrash } from "react-icons/fa";
 const UserListScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
