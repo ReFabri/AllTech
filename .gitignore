@@ -11,9 +11,6 @@ node_modules
 node_modules/
 /node_modules
 /node_modules/
-frontend-vite/dist
-/frontend-vite/dist
-dist
 dist-ssr
 *.local
 
