@@ -11,8 +11,8 @@ const Product = ({ product }) => {
           src={product.image}
           variant="top"
           style={{
-            "max-height": "15rem",
-            "object-fit": "contain",
+            maxHeight: "15rem",
+            objectFit: "contain",
           }}
         />
       </Link>

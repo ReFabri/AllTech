@@ -12,8 +12,6 @@ import ProductCarousel from "../components/ProductCarousel";
 import { useParams, Link } from "react-router-dom";
 import { listProducts } from "../slices/productListSlice";
 
-let isInitial = true;
-
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
@@ -22,11 +20,6 @@ const HomeScreen = () => {
   const { pageNumber } = useParams() || 1;
 
   useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 

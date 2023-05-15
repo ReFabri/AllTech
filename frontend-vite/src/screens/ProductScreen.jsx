@@ -16,8 +16,6 @@ import { listProductDetails } from "../slices/productDetailsSlice";
 import { createProductReview } from "../slices/productCreateReviewSlice";
 import { productCreateReviewActions } from "../slices/productCreateReviewSlice";
 
-let isInitial = true;
-
 const ProductScreen = () => {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
@@ -38,10 +36,6 @@ const ProductScreen = () => {
     productReviewCreate;
 
   useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
     if (successProductReview) {
       alert("Review Submitted");
       setRating(0);

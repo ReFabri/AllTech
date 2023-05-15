@@ -10,7 +10,8 @@
     "client": "npm run dev --prefix frontend-vite",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -d"
+    "data:destroy": "node backend/seeder -d",
+    "build": "npm install --prefix frontend-vite && npm run build --prefix frontend-vite"
   },
   "keywords": [],
   "author": "Renato Freire Fabricio",
