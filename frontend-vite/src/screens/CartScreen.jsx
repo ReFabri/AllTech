@@ -25,16 +25,12 @@ const CartScreen = () => {
   const id = useParams().id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let isInitial = true;
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
   useEffect(() => {
-    if (isInitial || !id) {
-      isInitial = false;
-      return;
-    }
     dispatch(addToCart(id, qty));
+    navigate("/cart");
   }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
@@ -106,10 +102,12 @@ const CartScreen = () => {
                 Subtotal ({cartItems.reduce((acc, cur) => acc + cur.qty, 0)})
                 items
               </h2>
-              $
-              {cartItems
-                .reduce((acc, cur) => acc + cur.qty * cur.price, 0)
-                .toFixed(2)}
+              <h3>
+                $
+                {cartItems
+                  .reduce((acc, cur) => acc + cur.qty * cur.price, 0)
+                  .toFixed(2)}
+              </h3>
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
